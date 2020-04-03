@@ -1,0 +1,44 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    encoders:
+      UserApiBundle\Entity\User: bcrypt
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        api_user_provider:
+            entity:
+                class: UserApiBundle:User
+                property: email
+        api_key_user_provider:
+           entity:
+               class: UserApiBundle:ApiToken
+               property: token
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        api:
+            pattern: ^/api
+            stateless: true
+            anonymous: ~
+            logout: ~
+            guard:
+                authenticators:
+                    - api_key_authenticator
+        main:
+            stateless: true
+            anonymous: ~
+            http_basic: ~
+            logout: ~
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/jobs, roles: ROLE_ADMIN }
+        - { path: ^/test_logic, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN

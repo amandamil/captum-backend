@@ -1,0 +1,5 @@
+services:
+    app.user_voter:
+        class: UserApiBundle\Security\Voter\UserVoter
+        tags:
+            - { name: security.voter }

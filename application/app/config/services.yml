@@ -1,0 +1,97 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
+
+    UserApiBundle\:
+        resource: '../../src/UserApiBundle/*'
+        exclude: '../../src/UserApiBundle/{Entity,Repository,Tests}'
+
+    UserApiBundle\Controller\:
+        resource: '../../src/UserApiBundle/Controller'
+        public: true
+        arguments: [
+            '@user_api.auth.service',
+            '@user_api.balance.service',
+            '@user_api.device.service',
+            '@core.response_service']
+        tags: ['controller.service_arguments']
+
+    UserApiBundle\Controller\DeviceController:
+        public: true
+        arguments: [
+            '@user_api.auth.service',
+            '@user_api.device.service']
+
+    UserApiBundle\Controller\V2\UserController:
+        public: true
+        arguments: [
+            '@user_api.auth.service',
+            '@user_api.balance.service',
+            '@user_api.device.service',
+            '@core.response_service']
+
+    ExperienceBundle\:
+        resource: '../../src/ExperienceBundle/*'
+        exclude: '../../src/ExperienceBundle/{Entity,Repository,Tests}'
+
+    ExperienceBundle\Controller\:
+        resource: '../../src/ExperienceBundle/Controller'
+        public: true
+        arguments: ['@experience.service.experience']
+        tags: ['controller.service_arguments']
+
+    SubscriptionBundle\:
+        resource: '../../src/SubscriptionBundle/*'
+        exclude: '../../src/SubscriptionBundle/{Entity,Repository,Tests}'
+
+    SubscriptionBundle\Controller\:
+        resource: '../../src/SubscriptionBundle/Controller'
+        public: true
+        arguments: ['@subscription.braintree.service','@subscription.service.subscription']
+        tags: ['controller.service_arguments']
+
+    SubscriptionBundle\Controller\V2\SubscriptionController:
+        public: true
+        arguments: ['@subscription.service.subscription']
+
+    CoreBundle\DataFixtures\:
+        resource: '../../src/CoreBundle/DataFixtures'
+        tags: ['doctrine.fixture.orm']
+
+    FrontendBundle\:
+        resource: '../../src/FrontendBundle/*'
+        exclude: '../../src/FrontendBundle/{Entity,Repository,Tests}'
+
+    FrontendBundle\Controller\:
+        resource: '../../src/FrontendBundle/Controller'
+        public: true
+
+    TestLogicBundle\:
+        resource: '../../src/TestLogicBundle/*'
+        exclude: '../../src/TestLogicBundle/{Entity,Repository,Tests}'
+
+    TestLogicBundle\Controller\:
+        resource: '../../src/TestLogicBundle/Controller'
+        public: true
+        arguments: [
+            '@doctrine.orm.default_entity_manager',
+            '@service_container',
+            '@test.logic.service']
+        tags: ['controller.service_arguments']
+
+    experience.service.schedule:
+        class: ExperienceBundle\Services\JobSchedulers\ExperiencesScheduler
+        public: true
+        tags: ['jms-job-queue:schedule']

@@ -1,0 +1,4 @@
+services:
+    core.response_service:
+        class: CoreBundle\Services\ResponseService
+        arguments: ['@service_container']

@@ -1,0 +1,4 @@
+services:
+    mailgun.mail_service:
+        class: MailgunBundle\Services\MailgunService
+        arguments: [%mailgun_domain%, %mailgun_api_key%]

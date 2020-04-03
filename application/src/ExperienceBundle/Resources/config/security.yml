@@ -1,0 +1,5 @@
+services:
+    app.experience_voter:
+        class: ExperienceBundle\Security\Voter\ExperienceVoter
+        tags:
+            - { name: security.voter }

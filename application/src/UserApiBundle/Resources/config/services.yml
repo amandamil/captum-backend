@@ -1,0 +1,50 @@
+services:
+     user_api.auth.service:
+        class: UserApiBundle\Services\AuthService
+        arguments: [
+          '@service_container',
+          '@doctrine.orm.default_entity_manager',
+          '@form.factory',
+          '@user_api.repository.token',
+          '@subscription.braintree.service',
+          '@swiftmailer.mailer.default']
+
+     user_api.device.service:
+        class: UserApiBundle\Services\DeviceService
+        arguments: [
+            '@service_container',
+            '@doctrine.orm.default_entity_manager',
+            '@form.factory']
+
+     user_api.repository.token:
+          class: UserApiBundle\Repository\ApiTokenRepository
+          factory: ['@doctrine', 'getRepository']
+          arguments: [ 'UserApiBundle:ApiToken' ]
+
+     user_api.repository.client:
+        class: UserApiBundle\Repository\ClientRepository
+        factory: ['@doctrine', 'getRepository']
+        arguments: ['UserApiBundle:Client']
+
+     user_api.ses.service:
+          class: UserApiBundle\Services\AwsSesService
+          arguments: ['@service_container']
+
+     user_api.balance.service:
+          class: UserApiBundle\Services\BalanceService
+          arguments: [
+              '@doctrine.orm.default_entity_manager',
+              '@service_container',
+              '@subscription.braintree.service',
+              '@form.factory',
+              '@core.response_service',
+              '@subscription.service.subscription',
+              '@subscription.appstore.service',
+              '@monolog.logger']
+
+     user_api.notification.service:
+          class: UserApiBundle\Services\NotificationService
+          arguments: [
+              '@service_container',
+              '@doctrine.orm.default_entity_manager',
+              '@user_api.device.service']

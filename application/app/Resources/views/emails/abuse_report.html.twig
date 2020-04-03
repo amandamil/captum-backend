@@ -1,0 +1,16 @@
+<p>
+    <span>Hi! Someone has reported offensive/inappropriate content found in Captum App.</span><br/><br/>
+    <span>Please review the information below and, if you find the content inappropriate,
+        deactivate the target image in Vuforia so it's not recognized anymore.
+        Then, contact developers so they delete the whole experience from database.</span><br/><br/>
+    Experience ID: {{ experience.id }}<br/><br/>
+    Experience image url: {{ experience.imageUrl }}<br/><br/>
+    Experience video url: {{ experience.transcodedUrlHD }}<br/><br/>
+    Experience vuforia target: {{ experience.targetId }}<br/><br/>
+
+    Owner ID: {{ user.id }}<br/><br/>
+    Owner name: {{ user.firstName }} {{ user.lastName }}<br/><br/>
+    Owner email: {{ user.email }}<br/><br/>
+    Owner phone: {{ user.phoneNumber }}<br/><br/>
+    Owner website: {{ user.website }}<br/><br/>
+</p>

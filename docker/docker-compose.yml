@@ -1,0 +1,67 @@
+version: '2'
+
+services:
+    # Database service
+    #db:
+        #image: mysql:5.7
+        #volumes:
+            #- "./.data/db:/var/lib/mysql"
+        #environment:
+            #MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            #MYSQL_DATABASE: ${MYSQL_DATABASE}
+            #MYSQL_USER: ${MYSQL_USER}
+            #MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        #ports:
+            #- ${PORT_MYSQL}:3306
+
+    # Backend service
+    php:
+        build:
+            context: php7-fpm
+            args:
+                TIMEZONE: ${TIMEZONE}
+        environment:
+            - SYMFONY_ENV=${SYMFONY_ENV}
+            - MAILGUN_DOMAIN=${MAILGUN_DOMAIN}
+            - MAILGUN_API_KEY=${MAILGUN_API_KEY}
+            - VUFORIA_ACCESS_KEY=${VUFORIA_ACCESS_KEY}
+            - VUFORIA_SECRET_KEY=${VUFORIA_SECRET_KEY}
+            - AWS_KEY=${AWS_KEY}
+            - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+            - AWS_BUCKET_IMAGE=${AWS_BUCKET_IMAGE}
+            - AWS_BUCKET_VIDEO=${AWS_BUCKET_VIDEO}
+            - AWS_BUCKET_TRANSCODED=${AWS_BUCKET_TRANSCODED}
+            - AWS_BUCKET_REGION=${AWS_BUCKET_REGION}
+            - AWS_TRANSCODER_PIPELINE_ID=${AWS_TRANSCODER_PIPELINE_ID}
+            - AWS_FULL_HD_PRESET_ID=${AWS_FULL_HD_PRESET_ID}
+            - AWS_HD_PRESET_ID=${AWS_HD_PRESET_ID}
+            - AWS_STANDARD_PRESET_ID=${AWS_STANDARD_PRESET_ID}
+            - AWS_CAPTUM_LOGO_URL=${AWS_CAPTUM_LOGO_URL}
+            - AWS_CAPTUM_LOGO_EPS_URL=${AWS_CAPTUM_LOGO_EPS_URL}
+            - AWS_SNS_ARN_IOS=${AWS_SNS_ARN_IOS}
+            - AWS_SNS_ARN_ANDROID=${AWS_SNS_ARN_ANDROID}
+            - BRAINTREE_ENVIRONMENT=${BRAINTREE_ENVIRONMENT}
+            - BRAINTREE_MERCHANT_ID=${BRAINTREE_MERCHANT_ID}
+            - BRAINTREE_PUBLIC_KEY=${BRAINTREE_PUBLIC_KEY}
+            - BRAINTREE_PRIVATE_KEY=${BRAINTREE_PRIVATE_KEY}
+            - ADMIN_EMAIL=${ADMIN_EMAIL}
+            - MIXPANEL_PROJECT_TOKEN=${MIXPANEL_PROJECT_TOKEN}
+            - APPSTORE_PASSWORD=${APPSTORE_PASSWORD}
+            - APPSTORE_SANDBOX_ENABLED=${APPSTORE_SANDBOX_ENABLED}
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+            - ./logs/symfony:/var/www/symfony/app/logs
+            - ./php7-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+            - ./php7-fpm/supervisord.conf:/etc/supervisor/conf.d/captum.conf
+            - ./php7-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+
+    # Web-server service
+    nginx:
+        build: nginx
+        ports:
+            - ${PORT_NGINX}:80
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+            - ./logs/symfony:/var/www/symfony/app/logs
+            - ./php7-fpm/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+            - ./logs/nginx/:/var/log/nginx

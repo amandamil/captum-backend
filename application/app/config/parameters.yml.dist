@@ -1,0 +1,64 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: 127.0.0.1
+    database_port: ~
+    database_name: symfony
+    database_user: root
+    database_password: ~
+    # You should uncomment this if you want to use pdo_sqlite
+    #database_path: '%kernel.project_dir%/var/data/data.sqlite'
+
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_port: 587
+    mailer_encryption: tls
+    mailer_user: ~
+    mailer_password: ~
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: ThisTokenIsNotSoSecretChangeIt
+
+    upload_directory: '%kernel.project_dir%/web/uploads/'
+    mailgun_api_key: '%env(MAILGUN_API_KEY)%'
+    mailgun_domain: '%env(MAILGUN_DOMAIN)%'
+
+    vuforia_access_key: '%env(VUFORIA_ACCESS_KEY)%'
+    vuforia_secret_key: '%env(VUFORIA_SECRET_KEY)%'
+
+    #amazon aws s3
+    amazon_aws_s3_bucket_image: '%env(AWS_BUCKET_IMAGE)%'
+    amazon_aws_s3_bucket_video: '%env(AWS_BUCKET_VIDEO)%'
+    amazon_aws_s3_bucket_transcoded: '%env(AWS_BUCKET_TRANSCODED)%'
+    amazon_aws_s3_key: '%env(AWS_KEY)%'
+    amazon_aws_s3_secret_key: '%env(AWS_SECRET_KEY)%'
+    amazon_aws_s3_region: '%env(AWS_BUCKET_REGION)%'
+
+    #aws transcoder
+    amazon_transcoder_pipeline_id: '%env(AWS_TRANSCODER_PIPELINE_ID)%'
+    amazon_full_hd_preset_id: '%env(AWS_FULL_HD_PRESET_ID)%'
+    amazon_hd_preset_id: '%env(AWS_HD_PRESET_ID)%'
+    amazon_standard_preset_id: '%env(AWS_STANDARD_PRESET_ID)%'
+    amazon_captum_logo_url: '%env(AWS_CAPTUM_LOGO_URL)%'
+    amazon_captum_logo_eps_url: '%env(AWS_CAPTUM_LOGO_EPS_URL)%'
+
+    #aws sns
+    amazon_aws_sns_arn_ios: '%env(AWS_SNS_ARN_IOS)%'
+    amazon_aws_sns_arn_android: '%env(AWS_SNS_ARN_ANDROID)%'
+
+    #braintree
+    braintree_enviroment: '%env(BRAINTREE_ENVIRONMENT)%'
+    braintree_merchant_id: '%env(BRAINTREE_MERCHANT_ID)%'
+    braintree_public_key: '%env(BRAINTREE_PUBLIC_KEY)%'
+    braintree_private_key: '%env(BRAINTREE_PRIVATE_KEY)%'
+
+    #admin email
+    admin_email: '%env(ADMIN_EMAIL)%'
+
+    #mixpanel token
+    mixpanel_token: '%env(MIXPANEL_PROJECT_TOKEN)%'
+
+    #Appstore constants
+    appstore_password: '%env(APPSTORE_PASSWORD)%'
+    appstore_sandbox_enabled: '%env(APPSTORE_SANDBOX_ENABLED)%'

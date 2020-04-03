@@ -1,0 +1,6 @@
+services:
+  api_key_authenticator:
+         class: SecurityAccessBundle\Security\TokenAuthenticator
+         arguments: [
+           '@user_api.repository.token',
+           '@user_api.repository.client']

@@ -1,0 +1,5 @@
+services:
+  app.sybscription_voter:
+    class: SubscriptionBundle\Security\Voter\SubscriptionVoter
+    tags:
+      - { name: security.voter }

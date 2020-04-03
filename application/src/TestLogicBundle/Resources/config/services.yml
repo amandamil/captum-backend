@@ -1,0 +1,14 @@
+services:
+    test.logic.service:
+        class: TestLogicBundle\Services\TestLogicService
+        arguments: [
+          '@service_container',
+          '@doctrine.orm.default_entity_manager',
+          '@subscription.service.subscription',
+          '@jms_job_queue.job_manager',
+          '@user_api.balance.service',
+          '@user_api.notification.service',
+          '@experience.service.experience',
+          '@subscription.braintree.service',
+          '@vuforia.service',
+          '@user_api.device.service']

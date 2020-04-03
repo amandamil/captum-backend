@@ -1,0 +1,186 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@SecurityAccessBundle/Resources/config/services.yml" }
+    - { resource: "@UserApiBundle/Resources/config/services.yml" }
+    - { resource: "@CoreBundle/Resources/config/services.yml" }
+    - { resource: "@MailgunBundle/Resources/config/services.yml" }
+    - { resource: "@ExperienceBundle/Resources/config/services.yml" }
+    - { resource: "@VuforiaBundle/Resources/config/services.yml" }
+    - { resource: "@SubscriptionBundle/Resources/config/services.yml" }
+    - { resource: "@TestLogicBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    default_timezone: 'UTC'
+
+framework:
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+    templating: { engines: ['twig'] }
+
+aws:
+    version: latest
+    region: us-east-1
+    credentials:
+        key: '%amazon_aws_s3_key%'
+        secret: '%amazon_aws_s3_secret_key%'
+    S3:
+        version: '2006-03-01'
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        types:
+            money: Tbbc\MoneyBundle\Type\MoneyType
+    orm:
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        dql:
+            datetime_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+                DAY: DoctrineExtensions\Query\Mysql\Day
+                DATE: DoctrineExtensions\Query\Mysql\Date
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    port: '%mailer_port%'
+    encryption: '%mailer_encryption%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+sensio_framework_extra:
+   router:
+        annotations: false
+
+fos_rest:
+    param_fetcher_listener: true
+    view:
+        view_response_listener: true
+        force_redirects:
+            html: true
+        formats:
+            json: true
+        templating_formats:
+            html: true
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors
+    format_listener:
+        rules:
+            - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', priorities: ['json', 'html', '*/*'], fallback_format: ~, prefer_extension: false }
+    serializer:
+        serialize_null: true
+
+jms_serializer:
+    property_naming:
+        separator:  _
+        lower_case: true
+
+    metadata:
+        cache: file
+        debug: "%kernel.debug%"
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
+        auto_detection: true
+
+dubture_f_fmpeg:
+    ffmpeg_binary: /usr/bin/ffmpeg
+    ffprobe_binary: /usr/bin/ffprobe
+    binary_timeout: 0 # Use 0 for infinite
+    threads_count: 4
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            timestampable: true
+
+tbbc_money:
+    currencies: ["USD"]
+    reference_currency: "USD"
+    decimals: 2
+
+#nelmio_cors:
+#    paths:
+#        '^/':
+#            allow_credentials: false
+#            allow_origin: ['*']
+#            allow_headers: ['*']
+#            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+#            expose_headers: ['x-token']
+#            max_age: 3600
+
+jms_job_queue:
+    queue_options_defaults:
+        max_concurrent_jobs: 10 # This limit applies to all queues (including the default queue). So each queue may only process 3 jobs simultaneously.
+
+nelmio_api_doc:
+    areas:
+        default:
+            path_patterns:
+                - ^/api/user
+                - ^/api/device
+                - ^/api/experience
+                - ^/api/subscription
+                - ^/settings
+                - ^/test_logic
+                - ^/api/v2/user
+                - ^/api/v2/subscription
+
+    documentation:
+        host:
+        schemes: [http, https]
+        info:
+            title: Captum App
+            description: Backend for mobile recognition app
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: X-API-Token
+                in: header
+        security:
+            - Bearer: []

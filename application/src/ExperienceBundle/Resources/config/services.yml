@@ -1,0 +1,18 @@
+services:
+    experience.aws.service:
+        class: ExperienceBundle\Services\AwsService
+        arguments: ['@service_container']
+
+    experience.service.experience:
+        class: ExperienceBundle\Services\ExperienceService
+        arguments: [
+            '@service_container',
+            '@doctrine.orm.default_entity_manager',
+            '@form.factory',
+            '@core.response_service',
+            '@vuforia.service',
+            '@experience.aws.service',
+            '@subscription.service.subscription',
+            '@jms_job_queue.job_manager',
+            '@user_api.balance.service',
+            '@user_api.notification.service']

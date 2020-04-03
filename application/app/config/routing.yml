@@ -1,0 +1,44 @@
+user_api:
+    resource: "@UserApiBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /api/user
+
+user_api_v2:
+    resource: "@UserApiBundle/Controller/V2/UserController.php"
+    type:     annotation
+    prefix:   /api/v2/user
+
+experience:
+    resource: "@ExperienceBundle/Controller/ExperienceController.php"
+    type:     annotation
+    prefix:   /api/experience
+
+subscription:
+    resource: "@SubscriptionBundle/Controller/SubscriptionController.php"
+    type:     annotation
+    prefix:   /api/subscription
+
+subscription_v2:
+    resource: "@SubscriptionBundle/Controller/V2/SubscriptionController.php"
+    type:     annotation
+    prefix:   /api/v2/subscription
+
+device:
+    resource: "@UserApiBundle/Controller/DeviceController.php"
+    type: annotation
+    prefix:   /api/device
+
+test_logic:
+    resource: "@TestLogicBundle/Controller/TestLogicController.php"
+    type: annotation
+    prefix: /test_logic
+
+JMSJobQueueBundle:
+    resource: "@JMSJobQueueBundle/Controller/"
+    type: annotation
+    prefix: /jobs
+
+FrontendBundle:
+    resource: "@FrontendBundle/Controller/"
+    type: annotation
+    prefix: /settings

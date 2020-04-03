@@ -1,0 +1,5 @@
+services:
+    app.base_voter:
+        class:  CoreBundle\Security\Voter\BaseVoter
+        tags:
+            - { name: security.voter }

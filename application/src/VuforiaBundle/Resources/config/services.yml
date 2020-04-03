@@ -1,0 +1,4 @@
+services:
+    vuforia.service:
+        class: VuforiaBundle\Services\VuforiaService
+        arguments: ["%vuforia_access_key%", "%vuforia_secret_key%", "%upload_directory%"]

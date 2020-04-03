@@ -1,0 +1,24 @@
+services:
+    subscription.braintree.service:
+        class: SubscriptionBundle\Services\BraintreeService
+        arguments: ['@service_container']
+
+    subscription.appstore.service:
+        class: SubscriptionBundle\Services\AppstoreService
+        arguments: ['@service_container']
+
+    subscription.service.subscription:
+        class: SubscriptionBundle\Services\SubscriptionService
+        arguments: [
+            '@doctrine.orm.default_entity_manager',
+            '@service_container',
+            '@subscription.braintree.service',
+            '@form.factory',
+            '@core.response_service',
+            '@vuforia.service',
+            '@jms_job_queue.job_manager',
+            '@user_api.ses.service',
+            '@swiftmailer.mailer.default',
+            '@user_api.notification.service',
+            '@subscription.appstore.service',
+            '@monolog.logger']
