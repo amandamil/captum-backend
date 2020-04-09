@@ -21,7 +21,7 @@ services:
             args:
                 TIMEZONE: ${TIMEZONE}
         environment:
-            - SYMFONY_ENV=${SYMFONY_ENV}
+            - APP_ENV=${APP_ENV}
             - MAILGUN_DOMAIN=${MAILGUN_DOMAIN}
             - MAILGUN_API_KEY=${MAILGUN_API_KEY}
             - VUFORIA_ACCESS_KEY=${VUFORIA_ACCESS_KEY}
