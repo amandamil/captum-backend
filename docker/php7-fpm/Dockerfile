@@ -28,7 +28,7 @@ RUN supervisorctl start queue schedule
 
 # Install NodeJS
 RUN apt-get install -y gnupg
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash
 RUN apt-get install -y nodejs libxrender1 libfontconfig
 
 # Install Bower
