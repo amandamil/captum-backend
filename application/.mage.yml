@@ -1,0 +1,53 @@
+magephp:
+  log_dir: .mage/logs
+  environments:
+    staging:
+      user: ubuntu
+      from: .mage/build
+      host_path: /var/www/captum-backend
+      ssh:
+        flags: -i .mage/keys/staging.pem
+      releases: 4
+      hosts:
+        - ec2-3-81-69-200.compute-1.amazonaws.com
+      pre-deploy:
+        # Prepare new build for deployment
+        - exec: { cmd: 'rm -rf .mage/build && mkdir .mage/build', desc: 'Cleanup previous build' } # Relative path to 'from' directory
+        - exec: { cmd: 'cp -r app .mage/build/' }
+        - exec: { cmd: 'cp -r bin .mage/build/' }
+        - exec: { cmd: 'cp -r src .mage/build/' }
+        - exec: { cmd: 'mkdir .mage/build/var' }
+        - exec: { cmd: 'mkdir .mage/build/web' }
+        - exec: { cmd: 'cp var/SymfonyRequirements.php .mage/build/var/' }
+        - exec: { cmd: 'cp web/app.php .mage/build/web/' }
+        - exec: { cmd: 'cp web/robots.txt .mage/build/web/' }
+        - exec: { cmd: 'cp composer.json .mage/build/' }
+        - exec: { cmd: 'cp composer.lock .mage/build/' }
+        - exec: { cmd: 'cp .env .mage/build/' }
+      on-deploy:
+        # Move build files to correct folder
+        - exec: { cmd: 'mv .mage/build/* ./', desc: 'Move build files to root' }
+        - exec: { cmd: 'mv .mage/build/.env ./' }
+        - exec: { cmd: 'rm -rf .mage/build', desc: 'Remove temp folder' }
+        - exec: { cmd: 'mkdir var/cache', desc: 'Create cache folder' }
+        - exec: { cmd: 'mkdir var/logs', desc: 'Create logs folder' }
+
+        # Permissions fix so user files could be written by php process
+        - exec: { cmd: 'setfacl -dR -m u:www-data:rwX -m u:ubuntu:rwX var', desc: 'Setup permissions (1/2)' }
+        - exec: { cmd: 'setfacl -R -m u:www-data:rwX -m u:ubuntu:rwX var', desc: 'Setup permissions (2/2)' }
+
+        # Link shareable files between releases
+        - fs/link: { from: '/var/www/captum-backend/shared/app/config/parameters.yml', to: 'app/config/parameters.yml' }
+        - fs/link: { from: '/var/www/captum-backend/shared/var/sessions', to: 'var/sessions' }
+        - fs/link: { from: '/var/www/captum-backend/shared/web/uploads', to: 'web/uploads' }
+        - fs/link: { from: '/var/www/captum-backend/shared/.env.local', to: '.env.local' }
+
+        # Install dependencies directly at server
+        - composer/install: { flags: '--no-scripts', timeout: 600 }
+        - composer/dump-autoload
+
+        - symfony/cache-warmup: { env: 'prod', timeout: 300 }
+        - symfony/assets-install: { env: 'prod' }
+      on-release:
+      post-release:
+      post-deploy:

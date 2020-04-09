@@ -49,3 +49,5 @@ migrations-diff:
 	cd docker && docker-compose exec -T php bash -c "cd /var/www/symfony/ && php bin/console doctrine:migrations:diff"
 composer-install:
 	cd docker && docker-compose exec -T php bash -c "composer install"
+mage-deploy-staging:
+	cd docker && docker-compose exec -T php bash -c "~/.composer/vendor/bin/mage deploy staging -vv"
