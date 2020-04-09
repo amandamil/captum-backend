@@ -498,7 +498,7 @@ class AuthService
     {
         $token = new ApiToken();
         $token->setToken(md5(uniqid().time()));
-        $token->setExpireAt((new \DateTime())->modify('+1 day'));
+        $token->setExpireAt((new \DateTime())->modify('+1 year'));
         $token->setUser($user);
         $token->setScope($scope);
         $token->setClient($client);
