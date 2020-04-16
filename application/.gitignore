@@ -15,3 +15,9 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/.mage/build/*
+/.mage/keys/*
+/.mage/logs/*
+/.env.local
+/.env.local.php
+/.env.*.local

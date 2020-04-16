@@ -1,0 +1,37 @@
+<?php
+
+return [
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
+    Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
+    Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
+    Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+    SecurityAccessBundle\SecurityAccessBundle::class => ['all' => true],
+    UserApiBundle\UserApiBundle::class => ['all' => true],
+    CoreBundle\CoreBundle::class => ['all' => true],
+    MailgunBundle\MailgunBundle::class => ['all' => true],
+    ExperienceBundle\ExperienceBundle::class => ['all' => true],
+    VuforiaBundle\VuforiaBundle::class => ['all' => true],
+    SubscriptionBundle\SubscriptionBundle::class => ['all' => true],
+    FOS\RestBundle\FOSRestBundle::class => ['all' => true],
+    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
+    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    Aws\Symfony\AwsBundle::class => ['all' => true],
+    Dubture\FFmpegBundle\DubtureFFmpegBundle::class => ['all' => true],
+    JMS\JobQueueBundle\JMSJobQueueBundle::class => ['all' => true],
+    Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
+    Tbbc\MoneyBundle\TbbcMoneyBundle::class => ['all' => true],
+    FrontendBundle\FrontendBundle::class => ['all' => true],
+    TestLogicBundle\TestLogicBundle::class => ['all' => true],
+
+    Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
+    Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
+    Sensio\Bundle\DistributionBundle\SensioDistributionBundle::class => ['dev' => true, 'test' => true],
+    Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+
+    Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle::class => ['dev' => true],
+    Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
+];

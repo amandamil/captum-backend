@@ -28,15 +28,15 @@ RUN supervisorctl start queue schedule
 
 # Install NodeJS
 RUN apt-get install -y gnupg
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash
 RUN apt-get install -y nodejs libxrender1 libfontconfig
-
-# Install Bower
-RUN npm install -g bower
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer --version
+
+# Install Magallanes
+RUN composer global require "andres-montanez/magallanes"
 
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone
